@@ -1,0 +1,15 @@
+name: schedule-subscriber
+dependencies:
+  - python=3.10.*
+  - astropy
+  - hypothesis
+  - pytest
+  - coverage
+  - requests
+  - pip
+  - pip:
+    - python-dotenv
+    - gql[all]
+    - backoff
+    - lucupy
+    - pytest-asyncio
