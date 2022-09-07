@@ -1,21 +1,17 @@
-# Copyright (c) 2016-2022 Association of Universities for Research in Astronomy, Inc. (AURA)
-# For license information see LICENSE or https://opensource.org/licenses/BSD-3-Clause
-
 import asyncio
 from typing import Awaitable
-
 import backoff
-from gql import Client, gql
-from gql.transport.aiohttp import AIOHTTPTransport
 from gql.transport.websockets import WebsocketsTransport
-
+from gql.transport.aiohttp import AIOHTTPTransport
+from gql import Client, gql
 from .queries import observation_update, program_update, target_update
 
 
 class Session:
+    
     def __init__(self, url: str = 'localhost:8080'):
         self.url = url
-
+    
     async def _query(self, session: Client, query: gql):
         return await session.execute(query)
 
@@ -25,7 +21,7 @@ class Session:
         """
         async for res in session.subscribe(sub):
             return res
-
+    
     @backoff.on_exception(backoff.expo, Exception, max_time=300)
     async def subscribe_all(self) -> Awaitable:
         """
@@ -47,12 +43,13 @@ class Session:
         client = Client(transport=WebsocketsTransport(url=f'wss://{self.url}/ws'))
         async with client as session:
             return await self._subscribe(session, query)
+    
 
     async def query(self, query: gql) -> Awaitable:
         """
         Query the server using one client
         """
         # client = Client(transport=WebsocketsTransport(url=f'wss://{self.url}'))
-        client = Client(transport=AIOHTTPTransport(url=f'https://{self.url}'))
+        client = Client(transport=AIOHTTPTransport(url=f'http://{self.url}'))
         async with client as session:
             return await self._query(session, query)
