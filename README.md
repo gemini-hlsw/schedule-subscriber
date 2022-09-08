@@ -1,6 +1,6 @@
 # Subscriber for the Scheduler service
 
-This is an auxiliary service for the [Gemini Automated Scheduler]().
+This is an auxiliary service for the [Gemini Automated Scheduler](https://github.com/gemini-hlsw/scheduler).
 Handles changes on the ODB and other services that could trigger a new schedule.
 
 
